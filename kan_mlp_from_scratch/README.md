@@ -1,6 +1,6 @@
 # From-scratch Kolmogorov-Arnold Networks (KAN) and MLP
 
-Accompanying code for "ML without tears" blog post: https://mlwithouttears.com/2024/05/15/a-from-scratch-implementation-of-kolmogorov-arnold-networks-kan/
+Accompanying code for "ML without tears" blog post: https://tinyurl.com/kanmlp
 
 
 ## Authors
