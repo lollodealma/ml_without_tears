@@ -5,20 +5,20 @@ class Loss:
 
     def __init__(self, n_in):
         self.n_in = n_in
-        self.xin, self.dloss_dxin, self.loss, self.y = None, None, None, None
+        self.y, self.dloss_dy, self.loss, self.y_train = None, None, None, None
 
-    def __call__(self, xin, y):
-        # xin: output of network
-        # y: ground truth
-        self.xin, self.y = np.array(xin), y
+    def __call__(self, y, y_train):
+        # y: output of network
+        # y_train: ground truth
+        self.y, self.y_train = np.array(y), y_train
         self.get_loss()
-        self.get_dloss_dxin()
+        self.get_dloss_dy()
         return self.loss
 
     def get_loss(self):
-        # compute loss l(xin, y)
+        # compute loss l(y, y_train)
         pass
 
-    def get_dloss_dxin(self):
-        # compute gradient of loss wrt xin
+    def get_dloss_dy(self):
+        # compute gradient of loss wrt y
         pass

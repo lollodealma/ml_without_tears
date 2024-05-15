@@ -24,15 +24,15 @@ class FeedForward:
 
     def backprop(self):
         # gradient backpropagation
-        dloss_dxin = self.layers[-1].update_grad(self.loss.dloss_dxin)
+        delta = self.layers[-1].update_grad(self.loss.dloss_dy)
         for ll in range(self.n_layers - 1)[::-1]:
-            dloss_dxin = self.layers[ll].update_grad(dloss_dxin)
+            delta = self.layers[ll].update_grad(delta)
 
     def gradient_descent_par(self):
         # update parameters via gradient descent
         for ll in self.layers:
             for nn in ll.neurons:
-                nn.gradient_descent_par(self.eps)
+                nn.gradient_descent(self.eps)
 
     def train(self, x_train, y_train, n_iter_max=10000, loss_tol=.1):
         self.loss_hist = np.zeros(n_iter_max)
@@ -56,4 +56,4 @@ class FeedForward:
                 self.loss_hist = self.loss_hist[: it]
                 break
             self.gradient_descent_par()  # update parameters
-            [layer.zero_grad(which=['par']) for layer in self.layers]  # reset gradient wrt par to zero
+            [layer.zero_grad(which=['weights', 'bias']) for layer in self.layers]  # reset gradient wrt par to zero

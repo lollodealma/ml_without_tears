@@ -6,10 +6,9 @@ class CrossEntropyLoss(Loss):
 
     def get_loss(self):
         # compute loss l(xin, y)
-        self.loss = - np.log(np.exp(self.xin[self.y[0]]) / sum(np.exp(self.xin)))
+        self.loss = - np.log(np.exp(self.y[self.y_train[0]]) / sum(np.exp(self.y)))
 
-    def get_dloss_dxin(self):
+    def get_dloss_dy(self):
         # compute gradient of loss wrt xin
-        self.dloss_dxin = np.exp(self.xin) / sum(np.exp(self.xin))
-        self.dloss_dxin[self.y] -= 1
-
+        self.dloss_dy = np.exp(self.y) / sum(np.exp(self.y))
+        self.dloss_dy[self.y_train] -= 1

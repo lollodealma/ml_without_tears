@@ -2,7 +2,7 @@ import math
 
 
 def relu(x, get_derivative=False):
-    return x * (x > 0) if not get_derivative else 1.0 * (x > 0)
+    return x * (x > 0) if not get_derivative else 1.0 * (x >= 0)
 
 
 def tanh_act(x, get_derivative=False):

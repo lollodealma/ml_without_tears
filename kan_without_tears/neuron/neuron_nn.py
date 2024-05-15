@@ -5,21 +5,26 @@ from utils.activations import relu
 
 class NeuronNN(Neuron):
 
-    def __init__(self, n_in, params_init=None, params_range=None, activation=relu):
-        super().__init__(n_in, n_par_per_edge=2, params_init=params_init, params_range=params_range)
+    def __init__(self, n_in, weights_range=None, activation=relu):
+        super().__init__(n_in, n_weights_per_edge=1, weights_range=weights_range)
         self.activation = activation
+        self.activation_input = None
 
     def get_xmid(self):
-        self.xmid = self.params[:, 0] + self.params[:, 1] * self.xin
+        self.xmid = self.weights[:, 0] * self.xin
 
     def get_xout(self):
-        self.xout = self.activation(sum(self.xmid.flatten()), get_derivative=False)
+        self.activation_input = sum(self.xmid.flatten()) + self.bias
+        self.xout = self.activation(self.activation_input, get_derivative=False)
 
     def get_dxout_dxmid(self):
-        self.dxout_dxmid = self.activation(sum(self.xmid.flatten()), get_derivative=True) * np.ones(self.n_in)
+        self.dxout_dxmid = self.activation(self.activation_input, get_derivative=True) * np.ones(self.n_in)
 
-    def get_dxmid_dpar(self):
-        self.dxmid_dpar = np.concatenate((np.ones((self.n_in, 1)), np.reshape(self.xin, (-1, 1))), axis=1)
+    def get_dxout_dbias(self):
+        self.dxout_dbias = self.activation(self.activation_input, get_derivative=True)
+
+    def get_dxmid_dw(self):
+        self.dxmid_dw = np.reshape(self.xin, (-1, 1))
 
     def get_dxmid_dxin(self):
-        self.dxmid_dxin = self.params[:, 1]
+        self.dxmid_dxin = self.weights.flatten()

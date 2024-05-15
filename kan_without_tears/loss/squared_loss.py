@@ -6,8 +6,8 @@ class SquaredLoss(Loss):
 
     def get_loss(self):
         # compute loss l(xin, y)
-        self.loss = np.mean(np.power(self.xin - self.y, 2))
+        self.loss = np.mean(np.power(self.y - self.y_train, 2))
 
-    def get_dloss_dxin(self):
+    def get_dloss_dy(self):
         # compute gradient of loss wrt xin
-        self.dloss_dxin = 2 * (self.xin - self.y) / self.n_in
+        self.dloss_dy = 2 * (self.y - self.y_train) / self.n_in
